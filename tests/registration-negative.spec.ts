@@ -51,9 +51,7 @@ test.describe("Registration - Negative Scenarios", () => {
         // Act
         await registrationPage.goto();
         await registrationPage.fillEmail(email);
-        if (displayName) {
-          await registrationPage.fillDisplayName(displayName);
-        }
+        await registrationPage.fillDisplayName(displayName);
         await registrationPage.fillPassword(password);
         await registrationPage.submitForm();
 
