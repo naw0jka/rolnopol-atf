@@ -18,7 +18,7 @@ test.describe("Registration", () => {
 
       // Assert
       await expect(registrationPage.getSuccessMessage()).toBeVisible();
-      await expect(page).toHaveURL("http://localhost:3000/login.html");
+      await expect(page).toHaveURL(/\/login\.html$/);
     },
   );
 });
