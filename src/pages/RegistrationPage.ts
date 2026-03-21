@@ -1,11 +1,8 @@
-import { Page } from "@playwright/test";
+import { Urls } from "../urls";
+import { BasePage } from "./BasePage";
 
-export class RegistrationPage {
-  constructor(private readonly page: Page) {}
-
-  async goto() {
-    await this.page.goto("/register.html");
-  }
+export class RegistrationPage extends BasePage {
+  protected readonly url = Urls.register;
 
   async fillEmail(email: string) {
     await this.page.getByTestId("email-input").fill(email);
@@ -28,6 +25,10 @@ export class RegistrationPage {
     await this.fillDisplayName(displayName);
     await this.fillPassword(password);
     await this.submitForm();
+  }
+
+  getRegisterForm() {
+    return this.page.locator("#registerForm");
   }
 
   getSuccessMessage() {
