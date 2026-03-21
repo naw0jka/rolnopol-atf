@@ -1,1 +1,111 @@
 # rolnopol-atf
+
+Automated test framework for the **Rolnopol** web application, built with [Playwright](https://playwright.dev/). It covers end-to-end and smoke tests for registration, login, farm management, marketplace trading, financial operations, and role-based access control.
+
+---
+
+## Table of Contents
+
+- [Project Description](#project-description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Links](#links)
+
+---
+
+## Project Description
+
+`rolnopol-atf` is a Playwright-based automated test framework that validates the Rolnopol farming simulation game. Tests are organised around the **Page Object Model (POM)** pattern and follow the **Arrange / Act / Assert** structure described in [CODING_STANDARDS.md](./CODING_STANDARDS.md).
+
+Key test areas (see full plan in [TEST_PLAN.md](./TEST_PLAN.md)):
+
+- **Registration & Login** – valid/invalid inputs, authentication tokens, session management
+- **Farm & Resource Management** – CRUD operations for fields, animals, and staff
+- **Marketplace Trading** – creating, browsing, buying, and cancelling offers
+- **Financial Operations** – balance checks, transfers, and insufficient-funds scenarios
+- **Role-Based Access Control** – farmer, admin, and superadmin permission enforcement
+- **System Health & API** – health endpoints and Swagger UI validation
+
+---
+
+## Installation
+
+**Prerequisites:** [Node.js](https://nodejs.org/) (v18 or later) and npm.
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/naw0jka/rolnopol-atf.git
+cd rolnopol-atf
+
+# 2. Install dependencies
+npm install
+
+# 3. Install Playwright browsers
+npx playwright install
+```
+
+---
+
+## Usage
+
+Make sure the Rolnopol application is running locally on `http://localhost:3000` before executing tests.
+
+### Run all tests
+
+```bash
+npm test
+```
+
+### Run only smoke tests
+
+```bash
+npx playwright test --grep @smoke
+```
+
+### Run a specific test file
+
+```bash
+npx playwright test tests/registration.spec.ts
+```
+
+### View the HTML report after a test run
+
+```bash
+npx playwright show-report
+```
+
+---
+
+## Project Structure
+
+```
+rolnopol-atf/
+├── src/
+│   ├── pages/          # Page Object classes (one per application page)
+│   │   ├── BasePage.ts
+│   │   ├── DocsPage.ts
+│   │   ├── HomePage.ts
+│   │   ├── LoginPage.ts
+│   │   ├── RegistrationPage.ts
+│   │   └── SwaggerPage.ts
+│   └── urls.ts         # Centralised URL constants
+├── tests/              # Playwright test files
+│   ├── registration.spec.ts
+│   ├── registration-negative.spec.ts
+│   └── example.spec.ts
+├── CODING_STANDARDS.md # Coding conventions and POM rules
+├── TEST_PLAN.md        # Full test plan and coverage matrix
+└── playwright.config.ts
+```
+
+---
+
+## Links
+
+- [Playwright documentation](https://playwright.dev/docs/intro)
+- [Playwright test configuration](https://playwright.dev/docs/test-configuration)
+- [Playwright trace viewer](https://playwright.dev/docs/trace-viewer)
+- [Coding standards](./CODING_STANDARDS.md)
+- [Test plan](./TEST_PLAN.md)
+- [Issue tracker](https://github.com/naw0jka/rolnopol-atf/issues)
