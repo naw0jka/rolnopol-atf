@@ -34,4 +34,8 @@ export class RegistrationPage extends BasePage {
   getSuccessMessage() {
     return this.page.getByText("Registration successful!");
   }
+
+  getFormError() {
+    return this.page.locator('[role="alert"].form__error');
+  }
 }
