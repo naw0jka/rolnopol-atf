@@ -3,6 +3,11 @@
 ### 1. Registration & Login
 
 - Test user registration with valid and invalid data. <!-- @reg-login-registration @smoke -->
+  - Negative: submit with invalid email format (no @ or domain) — expect inline error, stay on register page. <!-- @reg-login-registration-negative -->
+  - Negative: submit with password shorter than 3 characters — expect inline error, stay on register page. <!-- @reg-login-registration-negative -->
+  - Negative: submit with display name shorter than 3 characters — expect inline error, stay on register page. <!-- @reg-login-registration-negative -->
+  - Negative: submit with display name longer than 20 characters — **not testable via UI** (HTML5 `maxlength=20` prevents entry; enforce via API test). <!-- @reg-login-registration-negative -->
+  - Negative: submit with display name containing invalid characters (e.g. `@`) — expect inline error, stay on register page. <!-- @reg-login-registration-negative -->
 - Test login with correct and incorrect credentials. <!-- @reg-login-auth @smoke -->
 - Verify authentication token and session cookies. <!-- @reg-login-token -->
 - Test logout and session invalidation. <!-- @reg-login-logout @smoke -->
