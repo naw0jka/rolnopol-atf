@@ -2,13 +2,21 @@ name: Playwright Tests
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     services:
-      app:
+      rolnopol:
         image: jaktestowac/rolnopol:latest
         ports:
           - 3000:3000
@@ -20,20 +28,49 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Cache Playwright browsers
+        id: cache-browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-browsers-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-browsers-
 
-      - name: Run tests
+      - name: Install Playwright browsers
+        if: steps.cache-browsers.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright browser dependencies
+        if: steps.cache-browsers.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Wait for rolnopol service
+        run: |
+          echo "Waiting for rolnopol service to be ready..."
+          for i in {1..30}; do
+            if curl -sSf http://localhost:3000/health || curl -sSf http://localhost:3000; then
+              echo "Service is ready!"
+              exit 0
+            fi
+            echo "Attempt $i/30 failed, retrying in 2 seconds..."
+            sleep 2
+          done
+          echo "Service failed to become ready after 60 seconds"
+          exit 1
+
+      - name: Run Playwright tests
         run: npm test
 
-      - name: Upload test results
+      - name: Upload Playwright HTML Report
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: playwright-report
+          name: rolnopol-${{ github.run_id }}-${{ github.run_attempt }}
           path: playwright-report/
           retention-days: 30
