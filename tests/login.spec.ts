@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
+import { createUser } from "../src/models/User";
+import { HomePage } from "../src/pages/HomePage";
 import { LoginPage } from "../src/pages/LoginPage";
 import { ProfilePage } from "../src/pages/ProfilePage";
-import { HomePage } from "../src/pages/HomePage";
-import { createUser } from "../src/models/User";
 
 test.describe("Login", () => {
   test(
@@ -23,7 +23,9 @@ test.describe("Login", () => {
       await expect.soft(page).toHaveURL(profilePage.url);
 
       // Assert - Profile sections are visible
-      await expect.soft(profilePage.getProfileInformationSection()).toBeVisible();
+      await expect
+        .soft(profilePage.getProfileInformationSection())
+        .toBeVisible();
       await expect.soft(profilePage.getUpdateProfileSection()).toBeVisible();
       await expect.soft(profilePage.getDangerZoneSection()).toBeVisible();
 

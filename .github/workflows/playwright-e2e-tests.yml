@@ -23,6 +23,8 @@ jobs:
           - 3000:3000
     env:
       BASE_URL: ${{ vars.BASE_URL }}
+      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+      USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
