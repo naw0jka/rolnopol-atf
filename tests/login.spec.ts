@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { LoginPage } from "../src/pages/LoginPage";
 import { ProfilePage } from "../src/pages/ProfilePage";
 import { HomePage } from "../src/pages/HomePage";
+import { createUser } from "../src/models/User";
 
 test.describe("Login", () => {
   test(
@@ -12,12 +13,11 @@ test.describe("Login", () => {
       const loginPage = new LoginPage(page);
       const profilePage = new ProfilePage(page);
       const homePage = new HomePage(page);
-      const email = "emptyuser@rolnopol.demo.pl";
-      const password = "demoPass123";
+      const user = createUser();
 
       // Act - Login
       await loginPage.goto();
-      await loginPage.login(email, password);
+      await loginPage.login(user.email, user.password);
 
       // Assert - Redirected to profile page
       await expect.soft(page).toHaveURL(profilePage.url);
