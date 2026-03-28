@@ -2,7 +2,7 @@ import { Urls } from "../urls";
 import { BasePage } from "./BasePage";
 
 export class RegistrationPage extends BasePage {
-  protected readonly url = Urls.register;
+  readonly url = Urls.register;
 
   async fillEmail(email: string) {
     await this.page.getByTestId("email-input").fill(email);

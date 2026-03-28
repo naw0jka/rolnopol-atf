@@ -86,6 +86,7 @@ For UI tests:
 
 - Use Page Objects pattern.
 - Use stable locator strategies (role, label, text) whenever possible.
+- Use soft assertions (`expect.soft`) for non-blocking multi-check validations, and keep hard assertions for critical flow gates (navigation, prerequisites, and must-pass checkpoints).
 - Avoid sleeps and magic timeouts.
 - Reflect implementation progress in the plan.
 
@@ -106,13 +107,24 @@ After every change — no matter how small — run the **full existing test suit
 Before finishing, verify:
 
 - Tests include correct tags.
-- Assertions verify user-observable behavior.
+- Assertions verify user-observable behavior, with soft assertions used where appropriate to collect multiple verification failures in a single run.
 - No duplicated selectors or logic outside Page Objects.
 - Code style matches existing tests.
 - Update the plan with validation results.
 - Run the tests to confirm they work as intended.
 
-### 8. Final check & report
+### 8. Verify CI/CD workflows
+
+After implementation, check whether any CI/CD workflows (`.github/workflows/`) need to be updated to stay consistent with the changes:
+
+- **New environment variables or secrets** — verify they are referenced in workflow `env:` blocks and configured in the repository/environment settings.
+- **New dependencies or build steps** — confirm the workflow installs and runs them.
+- **Changed configuration files** — ensure the workflow does not rely on removed or renamed config (e.g. `playwright.config.ts` changes).
+- **New test files or tags** — verify the workflow test command still covers them.
+- If any workflow update is needed, apply it and document the change in the plan.
+- If no update is needed, explicitly note that workflows were reviewed and are still valid.
+
+### 9. Final check & report
 
 - Summarize what was added or changed.
 - List touched files.

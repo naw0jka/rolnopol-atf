@@ -2,7 +2,7 @@ import { Urls } from "../urls";
 import { BasePage } from "./BasePage";
 
 export class DocsPage extends BasePage {
-  protected readonly url = Urls.docs;
+  readonly url = Urls.docs;
 
   getNavbar() {
     return this.page.locator("#navbar-nav");

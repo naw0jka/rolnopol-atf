@@ -41,7 +41,11 @@ cd rolnopol-atf
 # 2. Install dependencies
 npm install
 
-# 3. Install Playwright browsers
+# 3. Set up environment variables
+cp .env.example .env
+# Edit .env to configure your BASE_URL and other sensitive data
+
+# 4. Install Playwright browsers
 npx playwright install
 ```
 
@@ -49,7 +53,7 @@ npx playwright install
 
 ## Usage
 
-Make sure the Rolnopol application is running locally on `http://localhost:3000` before executing tests.
+Make sure the Rolnopol application is running on the URL specified in your `.env` file (default: `http://localhost:3000`) before executing tests.
 
 ### Run all tests
 
@@ -81,6 +85,7 @@ npx playwright show-report
 
 ```
 rolnopol-atf/
+├── .env.example       # Environment variables template
 ├── src/
 │   ├── pages/          # Page Object classes (one per application page)
 │   │   ├── BasePage.ts
