@@ -21,6 +21,7 @@ test.describe("Login", () => {
 
       // Assert - Redirected to profile page
       await expect.soft(page).toHaveURL(profilePage.url);
+      await profilePage.waitForProfileLoaded();
 
       // Assert - Profile sections are visible
       await expect

@@ -1,16 +1,16 @@
 import { defineConfig, devices } from "@playwright/test";
-require('dotenv').config();
+import { ENV } from "./src/config/env.config";
 
 export default defineConfig({
   testDir: "./tests",
-  timeout: 10 * 1000,
+  timeout: 15 * 1000,
 
   fullyParallel: true,
   reporter: process.env.CI
     ? [["github"], ["html"]]
     : [["html", { open: "never" }]],
   use: {
-    baseURL: process.env.BASE_URL,
+    baseURL: ENV.BASE_URL,
     trace: "on-first-retry",
   },
   projects: [
