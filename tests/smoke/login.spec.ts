@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { getDemoUser, getEmptyUser } from "../src/models/User";
-import { HomePage } from "../src/pages/HomePage";
-import { LoginPage } from "../src/pages/LoginPage";
-import { ProfilePage } from "../src/pages/ProfilePage";
+import { getDemoUser, getEmptyUser } from "../../src/models/User";
+import { HomePage } from "../../src/pages/HomePage";
+import { LoginPage } from "../../src/pages/LoginPage";
+import { ProfilePage } from "../../src/pages/ProfilePage";
+
+test.use({ storageState: { cookies: [], origins: [] } });
 
 test.describe("Login", () => {
   const usersForLoginTest = [
