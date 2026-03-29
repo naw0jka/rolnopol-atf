@@ -31,7 +31,7 @@ test.describe("Smoke tests", () => {
       await loginPage.goto();
 
       // Assert
-      await expect(page).toHaveURL("http://localhost:3000/login.html");
+      await expect(page).toHaveURL(loginPage.url);
       await expect(loginPage.getLoginForm()).toContainText(loginExpectedText);
     },
   );
@@ -47,7 +47,7 @@ test.describe("Smoke tests", () => {
       await registrationPage.goto();
 
       // Assert
-      await expect(page).toHaveURL("http://localhost:3000/register.html");
+      await expect(page).toHaveURL(registrationPage.url);
       await expect(registrationPage.getRegisterForm()).toContainText(
         registerExpectedText,
       );
@@ -65,7 +65,7 @@ test.describe("Smoke tests", () => {
       await swaggerPage.goto();
 
       // Assert
-      await expect(page).toHaveURL("http://localhost:3000/swagger.html");
+      await expect(page).toHaveURL(swaggerPage.url);
       await expect(swaggerPage.getNavbar()).toContainText("API Explorer");
     },
   );
@@ -81,7 +81,7 @@ test.describe("Smoke tests", () => {
       await docsPage.goto();
 
       // Assert
-      await expect(page).toHaveURL("http://localhost:3000/docs.html");
+      await expect(page).toHaveURL(docsPage.url);
       await expect(docsPage.getNavbar()).toContainText("Documentation");
     },
   );

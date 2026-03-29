@@ -87,18 +87,30 @@ npx playwright show-report
 rolnopol-atf/
 ├── .env.example       # Environment variables template
 ├── src/
+│   ├── config/
+│   │   └── env.config.ts       # Environment variable validation and export
+│   ├── models/
+│   │   └── User.ts             # User model and factory functions
 │   ├── pages/          # Page Object classes (one per application page)
 │   │   ├── BasePage.ts
 │   │   ├── DocsPage.ts
 │   │   ├── HomePage.ts
 │   │   ├── LoginPage.ts
+│   │   ├── ProfilePage.ts
 │   │   ├── RegistrationPage.ts
+│   │   ├── StaffFieldsMainPage.ts
 │   │   └── SwaggerPage.ts
 │   └── urls.ts         # Centralised URL constants
 ├── tests/              # Playwright test files
+│   ├── auth/
+│   │   └── auth.setup.ts       # Authentication setup (stores session state)
+│   ├── smoke/
+│   │   ├── login.spec.ts       # Login flow and logout tests
+│   │   └── profile.spec.ts     # Profile page tests
+│   ├── example.spec.ts
 │   ├── registration.spec.ts
 │   ├── registration-negative.spec.ts
-│   └── example.spec.ts
+│   └── staff-fields.spec.ts
 ├── CODING_STANDARDS.md # Coding conventions and POM rules
 ├── TEST_PLAN.md        # Full test plan and coverage matrix
 └── playwright.config.ts
