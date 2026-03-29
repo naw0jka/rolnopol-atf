@@ -7,9 +7,7 @@
         "@playwright/mcp@latest",
         "--isolate",
         "--storage-state=playwright/.auth/user.json"
-      ],
-      "gallery": "https://api.mcp.github.com",
-      "version": "0.0.1-seed"
+      ]
     },
     "github": {
       "type": "http",

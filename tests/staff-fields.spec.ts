@@ -35,4 +35,35 @@ test.describe("Staff & Fields Management", () => {
       await expect.soft(createdFieldItem).toContainText(`${areaHa} ha`);
     },
   );
+
+  test(
+    "logged user can add an animal group and find it by type in the list",
+    { tag: ["@farm-resource-crud", "@smoke"] },
+    async ({ page }) => {
+      // Arrange
+      const staffFieldsMainPage = new StaffFieldsMainPage(page);
+      const animalType = "🐄 Cow";
+      const animalAmount = "15";
+
+      // Act - Navigate to Staff & Fields Management
+      await staffFieldsMainPage.goto();
+
+      // Assert - Staff & Fields Management page is loaded
+      await expect(page).toHaveURL(staffFieldsMainPage.url);
+      await expect(staffFieldsMainPage.getPageHeading()).toBeVisible();
+
+      // Act - Add animal group and search by type
+      await staffFieldsMainPage.createAnimal(animalType, animalAmount);
+      await staffFieldsMainPage.searchAnimalByName("cow");
+
+      // Assert - Animal type and amount are displayed in search results
+      const createdAnimalItem = staffFieldsMainPage
+        .getAnimalListItemByAmount("cow", animalAmount)
+        .first();
+
+      await expect(createdAnimalItem).toBeVisible();
+      await expect.soft(createdAnimalItem).toContainText("cow");
+      await expect.soft(createdAnimalItem).toContainText(animalAmount);
+    },
+  );
 });
