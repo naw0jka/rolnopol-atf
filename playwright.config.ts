@@ -21,9 +21,20 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
     {
+      name: "authenticated-tests",
+      testDir: "./tests",
+      testMatch: "staff-fields.spec.ts",
+      dependencies: ["setup"],
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/user.json",
+      },
+    },
+    {
       name: "smoke-tests",
       testDir: "./tests",
-      testIgnore: "auth/**",
+      testIgnore: ["auth/**", "staff-fields.spec.ts"],
+      dependencies: ["authenticated-tests"],
       use: { ...devices["Desktop Chrome"] },
     },
     {
