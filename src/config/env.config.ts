@@ -4,9 +4,9 @@ dotenv.config();
 
 const REQUIRED_ENV_VARS = [
   "BASE_URL",
-  "USER_EMAIL",
-  "USER_PASSWORD",
-  "USER_DISPLAY_NAME",
+  "EMPTY_USER_EMAIL",
+  "EMPTY_USER_PASSWORD",
+  "EMPTY_USER_DISPLAY_NAME",
 ] as const;
 
 type EnvVarName = (typeof REQUIRED_ENV_VARS)[number];
