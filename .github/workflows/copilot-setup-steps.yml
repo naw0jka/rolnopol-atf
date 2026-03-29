@@ -1,34 +1,25 @@
-name: Playwright Tests
+name: "Copilot Setup Steps"
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  test:
+  copilot-setup-steps:
     runs-on: ubuntu-latest
-    environment: dev
     timeout-minutes: 30
+    environment: copilot
+
+    # Set the permissions to the lowest permissions possible needed
+    permissions:
+      contents: read
+
+    # Start the rolnopol service just like in the CI workflow
     services:
       rolnopol:
         image: jaktestowac/rolnopol:latest
         ports:
           - 3000:3000
-    env:
-      BASE_URL: ${{ vars.BASE_URL }}
-      EMPTY_USER_EMAIL: ${{ secrets.EMPTY_USER_EMAIL }}
-      EMPTY_USER_PASSWORD: ${{ secrets.EMPTY_USER_PASSWORD }}
-      EMPTY_USER_DISPLAY_NAME: ${{ vars.EMPTY_USER_DISPLAY_NAME }}
-      DEMO_USER_EMAIL: ${{ secrets.DEMO_USER_EMAIL }}
-      DEMO_USER_PASSWORD: ${{ secrets.DEMO_USER_PASSWORD }}
-      DEMO_USER_DISPLAY_NAME: ${{ vars.DEMO_USER_DISPLAY_NAME }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -60,6 +51,8 @@ jobs:
         run: npx playwright install-deps chromium
 
       - name: Wait for rolnopol service
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
         run: |
           if [ -z "$BASE_URL" ]; then
             echo "BASE_URL is not set. Configure it in repository/environment variables."
@@ -76,16 +69,3 @@ jobs:
           done
           echo "Service failed to become ready after 60 seconds"
           exit 1
-
-      - name: Run Playwright tests
-        env:
-          BASE_URL: ${{ env.BASE_URL }}
-        run: npm test
-
-      - name: Upload Playwright HTML Report
-        if: ${{ success() || failure() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: rolnopol-${{ github.run_id }}-${{ github.run_attempt }}
-          path: playwright-report/
-          retention-days: 30
