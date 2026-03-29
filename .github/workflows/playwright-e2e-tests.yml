@@ -15,7 +15,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     environment: dev
-    timeout-minutes: 10
+    timeout-minutes: 30
     services:
       rolnopol:
         image: jaktestowac/rolnopol:latest
