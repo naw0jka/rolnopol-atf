@@ -5,7 +5,7 @@
       "command": "npx",
       "args": [
         "@playwright/mcp@latest",
-        "--isolate",
+        "--isolated",
         "--storage-state=playwright/.auth/user.json"
       ]
     },
