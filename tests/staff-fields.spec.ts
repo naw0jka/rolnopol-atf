@@ -1,0 +1,38 @@
+import { expect, test } from "@playwright/test";
+import { StaffFieldsMainPage } from "../src/pages/StaffFieldsMainPage";
+
+test.use({ storageState: "playwright/.auth/user.json" });
+
+test.describe("Staff & Fields Management", () => {
+  test(
+    "logged user can add a field and find it by name with the correct area",
+    { tag: ["@farm-resource-crud", "@smoke"] },
+    async ({ page }, testInfo) => {
+      // Arrange
+      const staffFieldsMainPage = new StaffFieldsMainPage(page);
+      const fieldName = `Nawi Test Field ${Date.now()}-${testInfo.parallelIndex}`;
+      const district = "powiat wejherowski";
+      const areaHa = "10";
+
+      // Act - Navigate to Staff & Fields Management
+      await staffFieldsMainPage.goto();
+
+      // Assert - Staff & Fields Management page is loaded
+      await expect(page).toHaveURL(staffFieldsMainPage.url);
+      await expect(staffFieldsMainPage.getPageHeading()).toBeVisible();
+
+      // Act - Add field and search by name
+      await staffFieldsMainPage.createField(fieldName, district, areaHa);
+      await staffFieldsMainPage.searchFieldByName(fieldName);
+
+      // Assert - Field name and area are displayed in search results
+      const createdFieldItem = staffFieldsMainPage
+        .getFieldListItemByName(fieldName)
+        .first();
+
+      await expect(createdFieldItem).toBeVisible();
+      await expect.soft(createdFieldItem).toContainText(fieldName);
+      await expect.soft(createdFieldItem).toContainText(`${areaHa} ha`);
+    },
+  );
+});
