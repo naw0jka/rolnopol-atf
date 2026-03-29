@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createUser } from "../src/models/User";
+import { getEmptyUser } from "../src/models/User";
 import { LoginPage } from "../src/pages/LoginPage";
 import { ProfilePage } from "../src/pages/ProfilePage";
 
@@ -11,7 +11,7 @@ test.describe("Profile Page", () => {
       // Arrange
       const loginPage = new LoginPage(page);
       const profilePage = new ProfilePage(page);
-      const user = createUser();
+      const user = getEmptyUser();
 
       // Act
       await loginPage.goto();
@@ -54,7 +54,7 @@ test.describe("Profile Page", () => {
       // Arrange
       const loginPage = new LoginPage(page);
       const profilePage = new ProfilePage(page);
-      const user = createUser();
+      const user = getEmptyUser();
 
       // Act
       await loginPage.goto();
